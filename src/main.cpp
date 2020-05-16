@@ -1,10 +1,17 @@
-#include "project/World.hpp"
+#include "project/Agent.hpp"
+#include "project/Environment.hpp"
 
 #include <iostream>
-#include <cstdlib>
 
-int main() {
-  Project::World hello;
-  hello.greet();
-  return EXIT_SUCCESS;
+int main()
+{
+  Reinforcement::Agent circleAgent{CIRCLE_SIDE};
+  Reinforcement::Agent crossAgent{CROSS_SIDE};
+  circleAgent.Initialize();
+  crossAgent.Initialize();
+
+  Reinforcement::Environment environment;
+  environment.Initialize();
+
+  return 0;
 }

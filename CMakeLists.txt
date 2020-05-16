@@ -17,13 +17,13 @@ include_directories(
 ) 
 
 set(APP_SOURCES src/main.cpp)
-set(LIB_SOURCES src/World.cpp)
+set(LIB_SOURCES src/Agent.cpp src/Environment.cpp)
 
 # creates ./build/bin/runner
 add_executable(${PROJECT_NAME} ${APP_SOURCES})
 
 # shared library
-set(LIBRARY_NAME World)
+set(LIBRARY_NAME Agent)
 add_library(${LIBRARY_NAME} SHARED ${LIB_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${LIBRARY_NAME})
 
