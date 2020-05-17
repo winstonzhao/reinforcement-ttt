@@ -11,28 +11,26 @@ namespace Reinforcement
     Agent(bool side);
     void Initialize();
     bool GetSide();
+    std::pair<int, double> *GetEpsilonGreedyAction(const Board *board);
+    int Observe(const Board *board, int reward);
+    void GameOver(bool win);
 
   private:
-    inline char NumToPiece(int num)
-    {
-      if (num == BLANK)
-        return ' ';
-      else if (num == CIRCLE)
-        return 'O';
-      else if (num == CROSS)
-        return 'X';
-      throw "Invalid number to attempt to convert to a piece";
-    }
-
     void RecursePossibleBoardStates(Board board, int numO, int numX);
-    void PrintBoard(Board &board);
-    int GetAction(Board *board);
+    std::pair<int, double> &GetAction(const Board *board, int action);
 
   private:
     bool mSide;
     StateActionPairs mStateActionPairs;
-    QMap<int> mEligibility;
+    std::vector<std::pair<std::pair<Board, int>, double>> mEligibility;
     Policy mPolicy;
-    double mEpsilon = 0.75;
+    double mEpsilon = 0.50; // % chance of random exploration
+    double mEpsilonDecayRate = 0.90;
+    double mGamma = 1;     // discount factor of previous estimations
+    double mAlpha = 0.001; // learning rate
+    double mLambda = 1;    // discount factor of previous eligibility
+    double mSumError = 0;
+    std::pair<int, double> *mPrevMove;
+    int mSteps = 0;
   };
 }; // namespace Reinforcement

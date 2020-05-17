@@ -2,6 +2,7 @@
 #include <array>
 #include <unordered_map>
 #include <vector>
+#include <map>
 
 using Board = std::array<int, 9>;
 struct BoardHasher
@@ -33,5 +34,6 @@ struct StateActionHasher
     }
 };
 using Policy = std::unordered_map<Board, std::vector<std::pair<int, double>>, BoardHasher>;
+
 template <typename T>
-using QMap = std::unordered_map<std::pair<Board, int>, T, StateActionHasher>;
+using QMap = std::map<std::pair<Board, int>, T>;

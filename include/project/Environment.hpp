@@ -11,6 +11,7 @@ namespace Reinforcement
         void Initialize();
         std::pair<Board *, int> Update(int move);
         bool IsGameOver();
+        Board *GetState();
 
     private:
         Board mBoard;

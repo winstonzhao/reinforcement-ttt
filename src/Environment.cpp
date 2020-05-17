@@ -1,5 +1,6 @@
 #include "project/Environment.hpp"
 #include "project/Util.hpp"
+#include <iostream>
 
 namespace Reinforcement
 {
@@ -12,15 +13,26 @@ namespace Reinforcement
             mBoard[i] = 0;
         }
         mGameState = PLAYING;
+        mCross = 0;
+        mCircle = 0;
+    }
+
+    Board *Environment::GetState()
+    {
+        return &mBoard;
     }
 
     std::pair<Board *, int> Environment::Update(int move)
     {
         if (IsGameOver())
-            return std::make_pair(&mBoard, mGameState == DRAW ? 50 : 100);
+        {
+            throw "Attemping game update while game is over";
+        }
         if (mBoard[move] != 0)
-            throw "Move attempted at invalid position";
-
+        {
+            PrintBoard(mBoard);
+            throw "Invalid move attempted";
+        }
         bool oTurn = mCross == mCircle;
 
         mBoard[move] = oTurn ? CIRCLE : CROSS;
@@ -29,7 +41,7 @@ namespace Reinforcement
         mGameState = GetGameState(mBoard);
 
         if (mGameState == PLAYING)
-            return std::make_pair(&mBoard, 1);
+            return std::make_pair(&mBoard, 0);
         else if (mGameState == CROSS_WIN || mGameState == CIRCLE_WIN)
             return std::make_pair(&mBoard, -100);
         else if (mGameState == DRAW)
